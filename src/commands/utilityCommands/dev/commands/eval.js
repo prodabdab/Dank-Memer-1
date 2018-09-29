@@ -2,7 +2,7 @@ const { inspect } = require('util');
 
 module.exports = {
   help: 'eval <script>',
-  fn: async ({ Memer, msg, args }) => {
+  fn: async ({ Memer, msg, args, userEntry }) => {
     if (!Memer.config.options.owners.includes(msg.author.id)) {
       return 'Woah now, only my "Owners" can do this';
     }

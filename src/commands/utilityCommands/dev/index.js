@@ -2,7 +2,7 @@ const { GenericCommand } = require('../../../models/');
 const commands = require('./commands');
 
 module.exports = new GenericCommand(
-  async ({ Memer, msg, args }) => {
+  async ({ Memer, msg, args, userEntry }) => {
     if (!Memer.config.options.developers.includes(msg.author.id)) {
       return;
     }
@@ -14,7 +14,7 @@ module.exports = new GenericCommand(
       };
     }
 
-    return commands[args.shift()].fn({ Memer, msg, args });
+    return commands[args.shift()].fn({ Memer, msg, args, userEntry });
   }, {
     triggers: ['dev', 'stupid-bot', 'd'],
     usage: '{command} you really don\'t need docs for this',
