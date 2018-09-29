@@ -539,5 +539,31 @@ module.exports = Bot => ({
     return Bot.r.table('autonsfw')
       .insert({id, channel: channelID, interval, type}, { conflict: 'update' })
       .run();
+  },
+
+  getDefaultUser: function getDefaultUser (id) {
+    return {
+      id, // User id/rethink id
+      pls: 1, // Total commands ran
+      lastCmd: Date.now(), // Last command time
+      lastRan: 'nothing', // Last command ran
+      spam: 0, // Spam means 2 commands in less than 1s
+      pocket: 0, // Coins not in bank account
+      bank: 0, // Coins in bank account
+      lost: 0, // Total coins lost
+      won: 0, // Total coins won
+      shared: 0, // Transferred to other players
+      streak: {
+        time: 0, // Time since last daily command
+        streak: 0 // Total current streak
+      },
+      upvoted: false, // DBL voter status
+      dblUpvoted: false // discordbotlist.com voter status
+    };
+  },
+
+  getRefUser: function getRefUser (id) {
+    const User = require('../models/UserEntry');
+    return Bot.r.table('users').get(id).default(this.getDefaultUser(id)).run().then(u => new User(u, Bot));
   }
 });
